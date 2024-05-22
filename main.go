@@ -113,6 +113,7 @@ func main() {
 		Price:       100,
 		ProductName: "toothpaste",
 	})
+
 	ordererr := OrderS.CreateOrder(order.Order{
 		Price:         100,
 		ProductId:     "1",
@@ -153,5 +154,11 @@ func main() {
 	// Create a commission
 	// Create a transaction
 	// Get the transactions by affiliateId
+
+	allOrder := OrderS.GetAllOrders()
+	for _, v := range allOrder {
+		fmt.Println("Order id ", v.OrderId)
+		fmt.Println("Order ", v)
+	}
 
 }

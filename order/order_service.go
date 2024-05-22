@@ -2,6 +2,7 @@ package order
 
 import (
 	"fmt"
+	"suraj_projects/flipkart_machine_coding/transaction"
 	"suraj_projects/flipkart_machine_coding/utils"
 	"sync"
 )
@@ -38,6 +39,12 @@ func (os *OrderService) CreateOrder(order Order) error {
 	defer os.mu.Unlock()
 	orderId := utils.GenerateOfferUniqueId()
 	order.State = "Created"
+	txn := transaction.GetTransMgr()
+	txn.CreateTransaction(transaction.Transaction{
+		OrderId: orderId,
+	},
+	)
+
 	Orders[orderId] = &order
 
 	if order.OrderId != "" {
@@ -95,4 +102,8 @@ func (os *OrderService) GetTotalCommisionForAffiliate(affiliateId string) (int, 
 	}
 	return totalCommision, nil
 
+}
+
+func (os *OrderService) GetAllOrders() map[string]*Order {
+	return os.OrderMap
 }
